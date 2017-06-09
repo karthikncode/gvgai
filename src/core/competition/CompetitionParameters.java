@@ -98,6 +98,10 @@ public class CompetitionParameters
      */
     public static String IMG_PATH = "sprites/";
 
+    public static void setImgPath(String imgPath) {
+        IMG_PATH = imgPath;
+    }
+
 
     /**
      * Delay for human play.
