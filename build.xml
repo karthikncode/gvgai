@@ -21,6 +21,7 @@
 
 
 	<path id="class.path">
+		<pathelement path="gson-2.6.2.jar"/>
 	</path>
 
 
