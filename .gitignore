@@ -21,6 +21,9 @@ out/
 /build/dist/
 production/
 
+# Ant
+/dist
+
 *.ipr
 *.class
 *.xml
