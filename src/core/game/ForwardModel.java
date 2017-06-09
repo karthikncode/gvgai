@@ -1,6 +1,12 @@
 package core.game;
 
-import java.awt.Dimension;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.*;
 
 import core.vgdl.SpriteGroup;
@@ -9,6 +15,8 @@ import ontology.Types;
 import ontology.avatar.MovingAvatar;
 import ontology.effects.TimeEffect;
 import tools.*;
+
+import javax.imageio.ImageIO;
 
 /**
  * Created with IntelliJ IDEA.
@@ -1084,4 +1092,85 @@ public class ForwardModel extends Game
         throw new RuntimeException("buildLevel should not be called in this instance.");
     }
 
+    @Override
+    public StateObservation getObservation() {
+        return new StateObservation(this.copy(), 0);
+    }
+
+    public SerializableStateObservation getSerializableStateObservation() {
+        StateObservation so = getObservation();
+        so.currentGameState = Types.GAMESTATES.ACT_STATE;
+        return new SerializableStateObservation(so);
+    }
+
+    public String paint() {
+        return paint(screenSize.width, screenSize.height);
+    }
+
+    public String paint(double scale) {
+        return paint((int) (screenSize.width * scale), (int) (screenSize.height * scale));
+    }
+
+    public String paint(int w, int h) {
+
+        // This method is based on VGDLViewer.paintComponent but returns a serialized image
+
+        // Byte arrays are easy to use from python
+        BufferedImage image = new BufferedImage(screenSize.width, screenSize.height, BufferedImage.TYPE_3BYTE_BGR);
+//        BufferedImage image = new BufferedImage(screenSize.width, screenSize.height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = image.createGraphics();
+
+        //For a better graphics, enable this: (be aware this could bring performance issues depending on your HW & OS).
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        //g.setColor(Types.LIGHTGRAY);
+        g.setColor(Types.BLACK);
+        g.fillRect(0, screenSize.height, screenSize.width, screenSize.height);
+
+        try {
+            int[] gameSpriteOrder = this.getSpriteOrder();
+            if (this.spriteGroups != null) for (Integer spriteTypeInt : gameSpriteOrder) {
+                if (spriteGroups[spriteTypeInt] != null) {
+                    ArrayList<VGDLSprite> spritesList = spriteGroups[spriteTypeInt].getSprites();
+                    for (VGDLSprite sp : spritesList) {
+                        if (sp != null) sp.draw(g, this);
+                    }
+
+                }
+            }
+        }catch(Exception e) {}
+
+        g.setColor(Types.BLACK);
+
+        if (screenSize.width != w || screenSize.height != h) {
+            image = resize(image, w, h);
+        }
+
+        // Using DataBuffer was much faster than ImageIO.write
+        return Base64.getEncoder().encodeToString(((DataBufferByte) image.getData().getDataBuffer()).getData());
+//        return imgToBase64String(image, "bmp");
+    }
+
+    public static BufferedImage resize(BufferedImage original, int w, int h) {
+        BufferedImage image = new BufferedImage(w, h, original.getType());
+        Graphics2D g = image.createGraphics();
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.drawImage(original, 0, 0, w, h, null);
+        g.dispose();
+        return image;
+    }
+
+    public static String imgToBase64String(final RenderedImage img, final String formatName) {
+        return Base64.getEncoder().encodeToString(imgToByteArray(img, formatName));
+    }
+
+    public static byte[] imgToByteArray(final RenderedImage img, final String formatName) {
+        final ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(img, formatName, os);
+            return os.toByteArray();
+        } catch (final IOException ioe) {
+            throw new UncheckedIOException(ioe);
+        }
+    }
 }
