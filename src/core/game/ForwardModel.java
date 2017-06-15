@@ -1145,6 +1145,10 @@ public class ForwardModel extends Game
         return new LightSerializableStateObservation(this).serialize();
     }
 
+    public String paintAsBase64String(int w, int h) {
+        return Base64.getEncoder().encodeToString(paintAsByteArray(w, h));
+    }
+
     public byte[] paintAsByteArray(int w, int h) {
 
         // This method is based on VGDLViewer.paintComponent but returns a serialized image
