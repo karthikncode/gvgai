@@ -1009,6 +1009,16 @@ public class ForwardModel extends Game
         return observationGrid;
     }
 
+    public int getObservationGridWidth()
+    {
+        return observationGrid.length;
+    }
+
+    public int getObservationGridHeight()
+    {
+        return observationGrid[0].length;
+    }
+
     /**
      * Returns the list of historic events happened in this game so far.
      * @return list of historic events happened in this game so far.
