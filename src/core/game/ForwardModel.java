@@ -1009,6 +1009,34 @@ public class ForwardModel extends Game
         return observationGrid;
     }
 
+    public byte[][][] getObservationTypeBinaryGridAsByte()
+    {
+        byte[][][] ret = new byte[observationGrid.length][observationGrid[0].length][VGDLRegistry.GetInstance().numSpriteTypes()];
+        for (int x = 0; x < observationGrid.length; ++x) {
+            for (int y = 0; y < observationGrid[0].length; ++y) {
+                for (Observation obs : observationGrid[x][y]) {
+                    ret[x][y][obs.itype] = 1;
+                }
+            }
+        }
+        return ret;
+    }
+
+    public byte[] getObservationTypeBinaryGridAsFlatByte()
+    {
+        byte[][][] data = getObservationTypeBinaryGridAsByte();
+        byte[] ret = new byte[data.length * data[0].length * data[0][0].length];
+        int i = 0;
+        for (byte[][] col : data) {
+            for (byte[] cell : col) {
+                for (byte val : cell) {
+                    ret[i++] = val;
+                }
+            }
+        }
+        return ret;
+    }
+
     public int getObservationGridWidth()
     {
         return observationGrid.length;
