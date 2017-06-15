@@ -1143,7 +1143,7 @@ public class ForwardModel extends Game
     }
 
     public String serialize() {
-        return new LightSerializableStateObservation(this).serialize();
+        return new LightSerializableStateObservation(this).serializeUsingJackson();
     }
 
     public String paintAsBase64String(int w, int h) {
