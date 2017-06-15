@@ -1103,6 +1103,10 @@ public class ForwardModel extends Game
         return new SerializableStateObservation(so);
     }
 
+    public String serialize() {
+        return new LightSerializableStateObservation(this).serialize();
+    }
+
     public String paint() {
         return paint(screenSize.width, screenSize.height);
     }

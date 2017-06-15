@@ -22,6 +22,7 @@
 
 	<path id="class.path">
 		<pathelement path="gson-2.6.2.jar"/>
+		<pathelement path="jsoniter-0.9.12.jar"/>
 	</path>
 
 
