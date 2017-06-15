@@ -10,6 +10,7 @@ import java.io.UncheckedIOException;
 import java.util.*;
 
 import core.vgdl.SpriteGroup;
+import core.vgdl.VGDLRegistry;
 import core.vgdl.VGDLSprite;
 import ontology.Types;
 import ontology.avatar.MovingAvatar;
