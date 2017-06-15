@@ -1145,15 +1145,7 @@ public class ForwardModel extends Game
         return new LightSerializableStateObservation(this).serialize();
     }
 
-    public String paint() {
-        return paint(screenSize.width, screenSize.height);
-    }
-
-    public String paint(double scale) {
-        return paint((int) (screenSize.width * scale), (int) (screenSize.height * scale));
-    }
-
-    public String paint(int w, int h) {
+    public byte[] paintAsByteArray(int w, int h) {
 
         // This method is based on VGDLViewer.paintComponent but returns a serialized image
 
@@ -1189,7 +1181,7 @@ public class ForwardModel extends Game
         }
 
         // Using DataBuffer was much faster than ImageIO.write
-        return Base64.getEncoder().encodeToString(((DataBufferByte) image.getData().getDataBuffer()).getData());
+        return ((DataBufferByte) image.getData().getDataBuffer()).getData();
 //        return imgToBase64String(image, "bmp");
     }
 
