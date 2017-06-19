@@ -1,5 +1,6 @@
 package core.game;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jsoniter.output.JsonStream;
 import ontology.Types;
 
@@ -55,5 +56,15 @@ public class LightSerializableStateObservation {
 
     public String serialize() {
         return JsonStream.serialize(this);
+    }
+
+    public String serializeUsingJackson() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (Exception e) {
+            System.err.println("Error raised in Jackson:" + e.toString());
+            return null;
+        }
     }
 }
