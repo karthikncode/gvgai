@@ -79,7 +79,7 @@ public class CompetitionParameters
     /**
      * Milliseconds allowed per controller action.
      */
-    public static final int SOCKET_PORT = 3000;
+    public static final int SOCKET_PORT = 8888;
 
     /**
      * Indicates if the overspend should be taken into account or not.
@@ -92,6 +92,11 @@ public class CompetitionParameters
      * Max number of evaluations that can be done
      */
     public static final int OPTIMIZATION_EVALUATION = 5;
+    
+    /**
+     * Max number of warning then the system consider the game unplayable.
+     */
+    public static final int MAX_ALLOWED_WARNINGS = 25;
     
     /**
      * Path to sprite images.

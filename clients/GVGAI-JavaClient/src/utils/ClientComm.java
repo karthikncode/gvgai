@@ -1,6 +1,6 @@
 package utils;
 
-import com.google.gson.Gson;
+import utils.com.google.gson.Gson;
 import serialization.SerializableStateObservation;
 
 import java.io.*;
@@ -140,13 +140,11 @@ public class ClientComm {
     public void processLine(String msg) throws IOException{
 
         try {
-
             //Separate ID and message:
             if (msg==null) {
                 System.err.println("ClientComm: msg==null");
             }
             String message[] = msg.split(TOKEN_SEP);
-
             if(message.length < 2)
                 return;
 

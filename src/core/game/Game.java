@@ -340,6 +340,7 @@ public abstract class Game {
 	 * @param constructors
 	 *            map of sprite constructor's information.
 	 */
+	@SuppressWarnings("unchecked")
 	public void initSprites(ArrayList<Integer> spOrder, ArrayList<Integer> sings,
 							HashMap<Integer, SpriteContent> constructors) {
 		ArrayList<Resource> resources = new ArrayList<Resource>();
@@ -1312,6 +1313,7 @@ public abstract class Game {
 	/**
 	 * Handles collisions and triggers events.
 	 */
+	@SuppressWarnings("unchecked")
 	protected void eventHandling() {
 		// Array to indicate that the sprite type has no representative in
 		// collisions.
@@ -1573,6 +1575,9 @@ public abstract class Game {
 				}
 			}
 		}
+		if(Logger.getInstance().getMessageCount() > CompetitionParameters.MAX_ALLOWED_WARNINGS){
+		    isEnded = true;
+		}
 	}
 
 	/**
@@ -1626,6 +1631,7 @@ public abstract class Game {
 	 * @param functHash
 	 *            Hash of the effect name to shield.
 	 */
+	@SuppressWarnings("unchecked")
 	public void addShield(int type1, int type2, long functHash) {
 		Pair newShield = new Pair(type2, functHash);
 		shieldedEffects[type1].add(newShield);
@@ -1671,6 +1677,7 @@ public abstract class Game {
 	 * @param force
 	 *            If true, forces the creation ignoring singleton restrictions
 	 */
+	@SuppressWarnings("unchecked")
 	public VGDLSprite addSprite(SpriteContent content, Vector2d position, int itype, boolean force) {
 		if (num_sprites > MAX_SPRITES) {
 			Logger.getInstance().addMessage(new Message(Message.WARNING, "Sprite limit reached."));
@@ -1680,13 +1687,12 @@ public abstract class Game {
 		// Check for singleton Sprites
 		boolean anyother = false;
 		if (!force) {
-
 			for (Integer typeInt : content.itypes) {
 				// If this type is a singleton and we have one already
 				if (singletons[typeInt] && getNumSprites(typeInt) > 0) {
 					// that's it, no more creations of this type.
-					anyother = true;
-					break;
+				    anyother = true;
+				    break;
 				}
 			}
 		}
@@ -1721,8 +1727,7 @@ public abstract class Game {
 			this.addSprite(newSprite, itype);
 			return newSprite;
 		}
-
-		Logger.getInstance().addMessage(new Message(Message.WARNING, "You can't have multiple objects of singleton."));
+		
 		return null;
 	}
 
