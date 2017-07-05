@@ -179,7 +179,7 @@ public abstract class Game {
 	/**
 	 * Game tick
 	 */
-	protected int gameTick;
+	public int gameTick;
 
 	/**
 	 * Handling when the window is closed
