@@ -44,6 +44,11 @@ public abstract class VGDLSprite {
     public String name;
 
     /**
+     *  Passable objectID to use in state observation.
+     */
+    public int objectID;
+
+    /**
      * Indicates if this sprite is static or not.
      */
     public boolean is_static;
@@ -377,6 +382,7 @@ public abstract class VGDLSprite {
         rotation = 0.0;
         max_speed = -1.0;
         images = new HashMap<String,ArrayList<Image>>();
+        objectID = -1;
 
         this.size = size;
 
@@ -1181,6 +1187,7 @@ public abstract class VGDLSprite {
         toSprite.max_speed = this.max_speed;
         toSprite.img = this.img;
         toSprite.orientedImg = this.orientedImg;
+        toSprite.objectID = this.objectID;
 
         toSprite.itypes = new ArrayList<Integer>();
         for(Integer it : this.itypes)
@@ -1239,6 +1246,7 @@ public abstract class VGDLSprite {
         if(other.healthPoints != this.healthPoints) return false;
         if(other.maxHealthPoints != this.maxHealthPoints) return false;
         if(other.limitHealthPoints != this.limitHealthPoints) return false;
+        if(other.objectID != this.objectID) return false;
 
         int numTypes = other.itypes.size();
         if(numTypes != this.itypes.size()) return false;

@@ -280,10 +280,12 @@ public class ForwardModel extends Game
     {
         int x = (int) position.x / block_size;
         boolean validX = x >= 0 && x < observationGrid.length;
-        boolean xPlus = (position.x % block_size) > 0 && (x+1 < observationGrid.length);
+//        boolean xPlus = (position.x % block_size) > 0 && (x+1 < observationGrid.length);
+        boolean xPlus = false; //prevent object from spanning multiple cells.
         int y = (int) position.y / block_size;
         boolean validY = y >= 0 && y < observationGrid[0].length;
-        boolean yPlus = (position.y % block_size) > 0 && (y+1 < observationGrid[0].length);
+//        boolean yPlus = (position.y % block_size) > 0 && (y+1 < observationGrid[0].length);
+        boolean yPlus = false; //prevent object from spanning multiple cells.
 
         if(validX && validY)
         {
@@ -353,6 +355,7 @@ public class ForwardModel extends Game
     {
         int category = getSpriteCategory(sprite);
         Observation obs = new Observation(sprite.getType(), sprite.spriteID, sprite.getPosition(), Types.NIL, category);
+        obs.objectID = sprite.objectID;
         observations.put(sprite.spriteID, obs);
         return obs;
     }
@@ -1022,7 +1025,10 @@ public class ForwardModel extends Game
         for (int x = 0; x < observationGrid.length; ++x) {
             for (int y = 0; y < observationGrid[0].length; ++y) {
                 for (Observation obs : observationGrid[x][y]) {
-                    ret[x][y][obs.itype] = 1;
+                    if(obs.objectID != -1)
+                        ret[x][y][obs.objectID] = 1;
+                    else
+                        ret[x][y][obs.itype] = 1;
                 }
             }
         }

@@ -38,6 +38,7 @@ public class Observation implements Comparable<Observation>
      * Distance from this observation to the reference.
      */
     public double sqDist;
+    public int objectID;
 
     /**
      * New observation. It is the observation of a sprite, recording its ID and position.

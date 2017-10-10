@@ -12,6 +12,7 @@ public class LightSerializableStateObservation {
     public float gameScore;
     public int gameTick;
     public Types.WINNER gameWinner;
+    public Types.WINNER[] multiGameWinner;
     public boolean isGameOver;
     public double[] worldDimension;
     public int blockSize;
@@ -32,6 +33,7 @@ public class LightSerializableStateObservation {
         gameScore = (float) s.getGameScore();
         gameTick = s.getGameTick();
         gameWinner = s.getGameWinner();
+        multiGameWinner = s.getMultiGameWinner();
         isGameOver = s.isGameOver();
 
         worldDimension = new double[2];
